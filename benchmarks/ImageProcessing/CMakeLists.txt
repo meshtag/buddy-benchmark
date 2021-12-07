@@ -12,12 +12,23 @@ add_library(Conv2D STATIC conv2d.o)
 
 set_target_properties(Conv2D PROPERTIES LINKER_LANGUAGE CXX)
 
-add_executable(image-processing-benchmark Main.cpp OpenCVBenchmark.cpp BuddyBenchmark.cpp)
+add_custom_command(OUTPUT corr2d.o
+COMMAND ${BUDDY_OPT_BUILD_DIR}/bin/buddy-opt ${BUDDY_SOURCE_DIR}/benchmarks/ImageProcessing/Corr2D.mlir -lower-dip -lower-affine -convert-scf-to-std -convert-vector-to-llvm -convert-memref-to-llvm -convert-std-to-llvm='emit-c-wrappers=1' -reconcile-unrealized-casts | 
+        ${LLVM_MLIR_BINARY_DIR}/mlir-translate --mlir-to-llvmir |
+        ${LLVM_MLIR_BINARY_DIR}/llc -mtriple=x86_64-unknown-linux-gnu -mattr=${BUDDY_OPT_ATTR} --filetype=obj -o ${BUDDY_BINARY_DIR}/../benchmarks/ImageProcessing/corr2d.o
+)
+
+add_library(Corr2D STATIC corr2d.o)
+
+set_target_properties(Corr2D PROPERTIES LINKER_LANGUAGE CXX)
+
+add_executable(image-processing-benchmark Main.cpp OpenCVBenchmark.cpp BuddyBenchmark.cpp DIPBenchmark.cpp)
 
 target_link_libraries(image-processing-benchmark 
   GoogleBenchmark
   ${OpenCV_LIBS}
   Conv2D
+  Corr2D
   Container
   PNGImage
   )
