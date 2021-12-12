@@ -65,5 +65,5 @@ void testKernel(unsigned int kernelRows, unsigned int kernelCols, float* kernelA
 
 int main()
 {
-
+  testKernel(prewittKernelRows, prewittKernelCols, prewittKernelAlign);
 }
