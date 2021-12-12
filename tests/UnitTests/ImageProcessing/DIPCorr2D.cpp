@@ -17,12 +17,27 @@ void _mlir_ciface_corr_2d(MemRef<float, 2> input, MemRef<float, 2> kernel,
                           unsigned int centerY, int boundaryOption);
 }
 
-bool equalImages(const Mat & a, const Mat & b)
+bool equalImages(const Mat &img1, const Mat &img2)
 {
-    if ((a.rows != b.rows) || (a.cols != b.cols))
-        return false;
-    Scalar s = sum(a - b);
-    return (s[0]==0) && (s[1]==0) && (s[2]==0);
+  if (img1.rows != img2.rows || img1.cols != img2.cols) {
+    std::cout << "Dimensions not equal\n";
+    return 0;
+  }
+
+  for (std::ptrdiff_t i = 0; i < img1.cols; ++i) {
+    for (std::ptrdiff_t j = 0; j < img1.rows; ++j) {
+      if (img1.at<uchar>(i, j) != img2.at<uchar>(i, j)) {
+        std::cout << "Pixels not equal at : (" << i << "," << j << ")\n";
+        std::cout << (int)img1.at<uchar>(i, j) << "\n";
+        std::cout << (int)img2.at<uchar>(i, j) << "\n\n";
+
+        std::cout << img1 << "\n\n";
+        std::cout << img2 << "\n\n";
+        return 0;
+      }
+    }
+  }
+  return 1;
 }
 
 // Read input image
