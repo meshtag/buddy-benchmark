@@ -60,7 +60,10 @@ void testKernelImpl(unsigned int kernelRows, unsigned int kernelCols, float* ker
   Mat kernel1 = Mat(3, 3, CV_32FC1, kernelArray);
   Mat opencvOutput;
 
+  std::cout << "Here too1\n";
   _mlir_ciface_corr_2d(input, kernel, output, x, y, 1);
+  std::cout << "Here too2\n";
+
   filter2D(inputImage, opencvOutput, CV_8UC1, kernel1, cv::Point(x, y), 0.0,
         cv::BORDER_REPLICATE);
 
@@ -83,5 +86,7 @@ void testKernel(unsigned int kernelRows, unsigned int kernelCols, float* kernelA
 
 int main()
 {
+  std::cout << "Here\n";
   testKernel(prewittKernelRows, prewittKernelCols, prewittKernelAlign);
+  std::cout << "Here too\n";
 }
