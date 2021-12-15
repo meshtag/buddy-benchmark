@@ -20,10 +20,16 @@
 
 #include <benchmark/benchmark.h>
 
+void generateResultConv2D();
+void generateResultCorr2D();
+
 // Run benchmarks.
 int main(int argc, char **argv) {
   ::benchmark::Initialize(&argc, argv);
   ::benchmark::RunSpecifiedBenchmarks();
+  // Generate result image.
+  generateResultConv2D();
+  generateResultCorr2D();
 
   return 0;
 }
