@@ -12,8 +12,8 @@ using namespace std;
 
 // Declare the Corr2D C interface.
 extern "C" {
-void _mlir_ciface_corr_2d(MemRef<float, 2> input, MemRef<float, 2> kernel,
-                          MemRef<float, 2> output, unsigned int centerX,
+void _mlir_ciface_corr_2d(MemRef<float, 2> *input, MemRef<float, 2> *kernel,
+                          MemRef<float, 2> *output, unsigned int centerX,
                           unsigned int centerY, int boundaryOption);
 }
 
@@ -57,15 +57,17 @@ void testKernelImpl(unsigned int kernelRows, unsigned int kernelCols, float* ker
   MemRef<float, 2> kernel(kernelArray, sizesKernel);
   MemRef<float, 2> output(sizesOutput);
 
+  for (int i = 0; i < inputImage.rows; i++)
+    for (int j = 0; j < inputImage.cols; j++)
+      output[i * inputImage.rows + j] = 0;
+
   Mat kernel1 = Mat(3, 3, CV_32FC1, kernelArray);
   Mat opencvOutput;
 
-  std::cout << "Here too1\n";
-  _mlir_ciface_corr_2d(input, kernel, output, x, y, 1);
-  std::cout << "Here too2\n";
+  _mlir_ciface_corr_2d(&input, &kernel, &output, x, y, 0);
 
   filter2D(inputImage, opencvOutput, CV_8UC1, kernel1, cv::Point(x, y), 0.0,
-        cv::BORDER_REPLICATE);
+        cv::BORDER_CONSTANT);
 
   // Define a cv::Mat with the output of the corr_2d.
   Mat dipOutput(inputImage.rows, inputImage.cols, CV_32FC1, output.getData());
@@ -86,7 +88,5 @@ void testKernel(unsigned int kernelRows, unsigned int kernelCols, float* kernelA
 
 int main()
 {
-  std::cout << "Here\n";
   testKernel(prewittKernelRows, prewittKernelCols, prewittKernelAlign);
-  std::cout << "Here too\n";
 }
