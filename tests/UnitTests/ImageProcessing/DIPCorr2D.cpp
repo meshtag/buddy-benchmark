@@ -41,7 +41,7 @@ bool equalImages(const Mat &img1, const Mat &img2)
 }
 
 // Read input image
-Mat inputImage = imread("../../benchmarks/ImageProcessing/Images/YuTu.png",
+Mat inputImage = imread("/home/prathamesh/buddy-benchmark/test_6x6.png",
                              IMREAD_GRAYSCALE);
 
 void testKernelImpl(unsigned int kernelRows, unsigned int kernelCols, float* kernelArray, 
