@@ -39,8 +39,17 @@ Mat inputImageCorr2D = imread(
     "../../benchmarks/ImageProcessing/Images/YuTu.png", IMREAD_GRAYSCALE);
 
 // Define the kernel size.
-int kernelRowsCorr2D = laplacianKernelRows;
-int kernelColsCorr2D = laplacianKernelCols;
+int kernelRows3x3Corr2D = sobel3x3KernelRows;
+int kernelCols3x3Corr2D = sobel3x3KernelCols;
+
+int kernelRows5x5Corr2D = sobel5x5KernelRows;
+int kernelCols5x5Corr2D = sobel5x5KernelCols;
+
+int kernelRows7x7Corr2D = sobel7x7KernelRows;
+int kernelCols7x7Corr2D = sobel7x7KernelCols;
+
+int kernelRows9x9Corr2D = sobel9x9KernelRows;
+int kernelCols9x9Corr2D = sobel9x9KernelCols;
 
 // Define the output size.
 int outputRowsCorr2D = inputImageCorr2D.rows;
@@ -48,36 +57,93 @@ int outputColsCorr2D = inputImageCorr2D.cols;
 
 // Define sizes of input, kernel, and output.
 intptr_t sizesInputCorr2D[2] = {inputImageCorr2D.rows, inputImageCorr2D.cols};
-intptr_t sizesKernelCorr2D[2] = {kernelRowsCorr2D, kernelColsCorr2D};
+intptr_t sizesKernel3x3Corr2D[2] = {kernelRows3x3Corr2D, kernelCols3x3Corr2D};
+intptr_t sizesKernel5x5Corr2D[2] = {kernelRows5x5Corr2D, kernelCols5x5Corr2D};
+intptr_t sizesKernel7x7Corr2D[2] = {kernelRows7x7Corr2D, kernelCols7x7Corr2D};
+intptr_t sizesKernel9x9Corr2D[2] = {kernelRows9x9Corr2D, kernelCols9x9Corr2D};
 intptr_t sizesOutputCorr2D[2] = {outputRowsCorr2D, outputColsCorr2D};
 
 // Define the MemRef descriptor for input, kernel, and output.
 MemRef<float, 2> inputCorr2D(inputImageCorr2D, sizesInputCorr2D);
-MemRef<float, 2> kernelCorr2D(laplacianKernelAlign, sizesKernelCorr2D);
+MemRef<float, 2> kernel3x3Corr2D(sobel3x3KernelAlign, sizesKernel3x3Corr2D);
+MemRef<float, 2> kernel5x5Corr2D(sobel5x5KernelAlign, sizesKernel5x5Corr2D);
+MemRef<float, 2> kernel7x7Corr2D(sobel7x7KernelAlign, sizesKernel7x7Corr2D);
+MemRef<float, 2> kernel9x9Corr2D(sobel9x9KernelAlign, sizesKernel9x9Corr2D);
 MemRef<float, 2> outputCorr2D(sizesOutputCorr2D);
 
-static void BM_Corr2D_Buddy(benchmark::State &state) {
+static void BM_3x3_Corr2D_Buddy(benchmark::State &state) {
   for (auto _ : state) {
     for (int i = 0; i < state.range(0); ++i) {
-      _mlir_ciface_corr_2d(&inputCorr2D, &kernelCorr2D, &outputCorr2D,
+      _mlir_ciface_corr_2d(&inputCorr2D, &kernel3x3Corr2D, &outputCorr2D,
                            1 /* Center X */, 1 /* Center Y */,
-                           0 /* Boundary Option */);
+                           1 /* Boundary Option */);
     }
   }
 }
 
 // Register benchmarking function with different arguments.
-BENCHMARK(BM_Corr2D_Buddy)->Arg(1);
-BENCHMARK(BM_Corr2D_Buddy)->Arg(2);
-BENCHMARK(BM_Corr2D_Buddy)->Arg(4);
-BENCHMARK(BM_Corr2D_Buddy)->Arg(8);
-BENCHMARK(BM_Corr2D_Buddy)->Arg(16);
+BENCHMARK(BM_3x3_Corr2D_Buddy)->Arg(1);
+BENCHMARK(BM_3x3_Corr2D_Buddy)->Arg(2);
+BENCHMARK(BM_3x3_Corr2D_Buddy)->Arg(4);
+BENCHMARK(BM_3x3_Corr2D_Buddy)->Arg(8);
+BENCHMARK(BM_3x3_Corr2D_Buddy)->Arg(16);
+
+static void BM_5x5_Corr2D_Buddy(benchmark::State &state) {
+  for (auto _ : state) {
+    for (int i = 0; i < state.range(0); ++i) {
+      _mlir_ciface_corr_2d(&inputCorr2D, &kernel5x5Corr2D, &outputCorr2D,
+                           1 /* Center X */, 1 /* Center Y */,
+                           1 /* Boundary Option */);
+    }
+  }
+}
+
+// Register benchmarking function with different arguments.
+BENCHMARK(BM_5x5_Corr2D_Buddy)->Arg(1);
+BENCHMARK(BM_5x5_Corr2D_Buddy)->Arg(2);
+BENCHMARK(BM_5x5_Corr2D_Buddy)->Arg(4);
+BENCHMARK(BM_5x5_Corr2D_Buddy)->Arg(8);
+BENCHMARK(BM_5x5_Corr2D_Buddy)->Arg(16);
+
+static void BM_7x7_Corr2D_Buddy(benchmark::State &state) {
+  for (auto _ : state) {
+    for (int i = 0; i < state.range(0); ++i) {
+      _mlir_ciface_corr_2d(&inputCorr2D, &kernel7x7Corr2D, &outputCorr2D,
+                           1 /* Center X */, 1 /* Center Y */,
+                           1 /* Boundary Option */);
+    }
+  }
+}
+
+// Register benchmarking function with different arguments.
+BENCHMARK(BM_7x7_Corr2D_Buddy)->Arg(1);
+BENCHMARK(BM_7x7_Corr2D_Buddy)->Arg(2);
+BENCHMARK(BM_7x7_Corr2D_Buddy)->Arg(4);
+BENCHMARK(BM_7x7_Corr2D_Buddy)->Arg(8);
+BENCHMARK(BM_7x7_Corr2D_Buddy)->Arg(16);
+
+static void BM_9x9_Corr2D_Buddy(benchmark::State &state) {
+  for (auto _ : state) {
+    for (int i = 0; i < state.range(0); ++i) {
+      _mlir_ciface_corr_2d(&inputCorr2D, &kernel9x9Corr2D, &outputCorr2D,
+                           1 /* Center X */, 1 /* Center Y */,
+                           1 /* Boundary Option */);
+    }
+  }
+}
+
+// Register benchmarking function with different arguments.
+BENCHMARK(BM_9x9_Corr2D_Buddy)->Arg(1);
+BENCHMARK(BM_9x9_Corr2D_Buddy)->Arg(2);
+BENCHMARK(BM_9x9_Corr2D_Buddy)->Arg(4);
+BENCHMARK(BM_9x9_Corr2D_Buddy)->Arg(8);
+BENCHMARK(BM_9x9_Corr2D_Buddy)->Arg(16);
 
 // Generate result image.
 void generateResultCorr2D() {
   // Define the MemRef descriptor for input, kernel, and output.
   MemRef<float, 2> input(inputImageCorr2D, sizesInputCorr2D);
-  MemRef<float, 2> kernel(laplacianKernelAlign, sizesKernelCorr2D);
+  MemRef<float, 2> kernel(laplacianKernelAlign, sizesKernel3x3Corr2D);
   MemRef<float, 2> output(sizesOutputCorr2D);
   // Run the 2D correlation.
   _mlir_ciface_corr_2d(&input, &kernel, &output, 1 /* Center X */,
