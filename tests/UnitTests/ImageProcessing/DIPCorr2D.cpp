@@ -2,7 +2,6 @@
 #include <opencv2/opencv.hpp>
 
 #include <iostream>
-#include <time.h>
 
 #include "Utils/Container.h"
 #include "kernels.h"
@@ -17,36 +16,15 @@ void _mlir_ciface_corr_2d(MemRef<float, 2> *input, MemRef<float, 2> *kernel,
                           unsigned int centerY, int boundaryOption);
 }
 
-bool equalImages(const Mat &img1, const Mat &img2)
-{
-  if (img1.rows != img2.rows || img1.cols != img2.cols) {
-    std::cout << "Dimensions not equal\n";
-    return 0;
-  }
-
-  for (std::ptrdiff_t i = 0; i < img1.cols; ++i) {
-    for (std::ptrdiff_t j = 0; j < img1.rows; ++j) {
-      if (img1.at<uchar>(i, j) != img2.at<uchar>(i, j)) {
-        std::cout << "Pixels not equal at : (" << i << "," << j << ")\n";
-        std::cout << (int)img1.at<uchar>(i, j) << "\n";
-        std::cout << (int)img2.at<uchar>(i, j) << "\n\n";
-
-        std::cout << img1 << "\n\n";
-        std::cout << img2 << "\n\n";
-        return 0;
-      }
-    }
-  }
-  return 1;
-}
-
 // Read input image
-Mat inputImage = imread("/home/prathamesh/buddy-benchmark/test_6x6.png",
+Mat inputImage = imread("../../test_6x6.png",
                              IMREAD_GRAYSCALE);
 
-void testKernelImpl(unsigned int kernelRows, unsigned int kernelCols, float* kernelArray, 
-                unsigned int x, unsigned int y)
+int main()
 {
+  float* kernelArray = prewittKernelAlign;
+  int kernelRows = prewittKernelRows, kernelCols = prewittKernelCols;
+
   // Define allocated, sizes, and strides.
   intptr_t sizesInput[2] = {inputImage.rows, inputImage.cols};
   intptr_t sizesKernel[2] = {kernelRows, kernelCols};
@@ -61,32 +39,5 @@ void testKernelImpl(unsigned int kernelRows, unsigned int kernelCols, float* ker
     for (int j = 0; j < inputImage.cols; j++)
       output[i * inputImage.rows + j] = 0;
 
-  Mat kernel1 = Mat(3, 3, CV_32FC1, kernelArray);
-  Mat opencvOutput;
-
-  _mlir_ciface_corr_2d(&input, &kernel, &output, x, y, 0);
-
-  filter2D(inputImage, opencvOutput, CV_8UC1, kernel1, cv::Point(x, y), 0.0,
-        cv::BORDER_CONSTANT);
-
-  // Define a cv::Mat with the output of the corr_2d.
-  Mat dipOutput(inputImage.rows, inputImage.cols, CV_32FC1, output.getData());
-
-  if (!equalImages(dipOutput, opencvOutput))
-  {
-    std::cout << "Different images produced by OpenCV and DIP for kernel " << kernel1 << "\n";
-    return;
-  }
-}
-
-void testKernel(unsigned int kernelRows, unsigned int kernelCols, float* kernelArray)
-{
-  for (unsigned int x = 0; x < kernelRows; ++x)
-    for (unsigned int y = 0; y < kernelCols; ++y)
-      testKernelImpl(kernelRows, kernelCols, kernelArray, x, y);
-}
-
-int main()
-{
-  testKernel(prewittKernelRows, prewittKernelCols, prewittKernelAlign);
+  _mlir_ciface_corr_2d(&input, &kernel, &output, 1, 2, 0);
 }
