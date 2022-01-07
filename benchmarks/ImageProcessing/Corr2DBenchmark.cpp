@@ -36,7 +36,7 @@ void _mlir_ciface_corr_2d(MemRef<float, 2> *inputCorr2D,
 
 // Read input image.
 Mat inputImageCorr2D = imread(
-    "../../benchmarks/ImageProcessing/Images/YuTu.png", IMREAD_GRAYSCALE);
+    "../../benchmarks/ImageProcessing/Images/YuTu1024.png", IMREAD_GRAYSCALE);
 
 // Define the kernel size.
 int kernelRows3x3Corr2D = sobel3x3KernelRows;
@@ -98,12 +98,12 @@ static void BM_5x5_Corr2D_Buddy(benchmark::State &state) {
   }
 }
 
-// Register benchmarking function with different arguments.
-BENCHMARK(BM_5x5_Corr2D_Buddy)->Arg(1);
-BENCHMARK(BM_5x5_Corr2D_Buddy)->Arg(2);
-BENCHMARK(BM_5x5_Corr2D_Buddy)->Arg(4);
-BENCHMARK(BM_5x5_Corr2D_Buddy)->Arg(8);
-BENCHMARK(BM_5x5_Corr2D_Buddy)->Arg(16);
+// // Register benchmarking function with different arguments.
+// BENCHMARK(BM_5x5_Corr2D_Buddy)->Arg(1);
+// BENCHMARK(BM_5x5_Corr2D_Buddy)->Arg(2);
+// BENCHMARK(BM_5x5_Corr2D_Buddy)->Arg(4);
+// BENCHMARK(BM_5x5_Corr2D_Buddy)->Arg(8);
+// BENCHMARK(BM_5x5_Corr2D_Buddy)->Arg(16);
 
 static void BM_7x7_Corr2D_Buddy(benchmark::State &state) {
   for (auto _ : state) {
@@ -115,12 +115,12 @@ static void BM_7x7_Corr2D_Buddy(benchmark::State &state) {
   }
 }
 
-// Register benchmarking function with different arguments.
-BENCHMARK(BM_7x7_Corr2D_Buddy)->Arg(1);
-BENCHMARK(BM_7x7_Corr2D_Buddy)->Arg(2);
-BENCHMARK(BM_7x7_Corr2D_Buddy)->Arg(4);
-BENCHMARK(BM_7x7_Corr2D_Buddy)->Arg(8);
-BENCHMARK(BM_7x7_Corr2D_Buddy)->Arg(16);
+// // Register benchmarking function with different arguments.
+// BENCHMARK(BM_7x7_Corr2D_Buddy)->Arg(1);
+// BENCHMARK(BM_7x7_Corr2D_Buddy)->Arg(2);
+// BENCHMARK(BM_7x7_Corr2D_Buddy)->Arg(4);
+// BENCHMARK(BM_7x7_Corr2D_Buddy)->Arg(8);
+// BENCHMARK(BM_7x7_Corr2D_Buddy)->Arg(16);
 
 static void BM_9x9_Corr2D_Buddy(benchmark::State &state) {
   for (auto _ : state) {
@@ -132,12 +132,12 @@ static void BM_9x9_Corr2D_Buddy(benchmark::State &state) {
   }
 }
 
-// Register benchmarking function with different arguments.
-BENCHMARK(BM_9x9_Corr2D_Buddy)->Arg(1);
-BENCHMARK(BM_9x9_Corr2D_Buddy)->Arg(2);
-BENCHMARK(BM_9x9_Corr2D_Buddy)->Arg(4);
-BENCHMARK(BM_9x9_Corr2D_Buddy)->Arg(8);
-BENCHMARK(BM_9x9_Corr2D_Buddy)->Arg(16);
+// // Register benchmarking function with different arguments.
+// BENCHMARK(BM_9x9_Corr2D_Buddy)->Arg(1);
+// BENCHMARK(BM_9x9_Corr2D_Buddy)->Arg(2);
+// BENCHMARK(BM_9x9_Corr2D_Buddy)->Arg(4);
+// BENCHMARK(BM_9x9_Corr2D_Buddy)->Arg(8);
+// BENCHMARK(BM_9x9_Corr2D_Buddy)->Arg(16);
 
 // Generate result image.
 void generateResultCorr2D() {

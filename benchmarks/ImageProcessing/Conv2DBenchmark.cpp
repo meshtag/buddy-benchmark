@@ -93,12 +93,12 @@ static void BM_3x3_Conv2D_Buddy(benchmark::State &state) {
   }
 }
 
-// Register benchmarking function with different arguments.
-BENCHMARK(BM_3x3_Conv2D_Buddy)->Arg(1);
-BENCHMARK(BM_3x3_Conv2D_Buddy)->Arg(2);
-BENCHMARK(BM_3x3_Conv2D_Buddy)->Arg(4);
-BENCHMARK(BM_3x3_Conv2D_Buddy)->Arg(8);
-BENCHMARK(BM_3x3_Conv2D_Buddy)->Arg(16);
+// // Register benchmarking function with different arguments.
+// BENCHMARK(BM_3x3_Conv2D_Buddy)->Arg(1);
+// BENCHMARK(BM_3x3_Conv2D_Buddy)->Arg(2);
+// BENCHMARK(BM_3x3_Conv2D_Buddy)->Arg(4);
+// BENCHMARK(BM_3x3_Conv2D_Buddy)->Arg(8);
+// BENCHMARK(BM_3x3_Conv2D_Buddy)->Arg(16);
 
 static void BM_5x5_Conv2D_Buddy(benchmark::State &state) {
   for (auto _ : state) {
@@ -108,12 +108,12 @@ static void BM_5x5_Conv2D_Buddy(benchmark::State &state) {
   }
 }
 
-// Register benchmarking function with different arguments.
-BENCHMARK(BM_5x5_Conv2D_Buddy)->Arg(1);
-BENCHMARK(BM_5x5_Conv2D_Buddy)->Arg(2);
-BENCHMARK(BM_5x5_Conv2D_Buddy)->Arg(4);
-BENCHMARK(BM_5x5_Conv2D_Buddy)->Arg(8);
-BENCHMARK(BM_5x5_Conv2D_Buddy)->Arg(16);
+// // Register benchmarking function with different arguments.
+// BENCHMARK(BM_5x5_Conv2D_Buddy)->Arg(1);
+// BENCHMARK(BM_5x5_Conv2D_Buddy)->Arg(2);
+// BENCHMARK(BM_5x5_Conv2D_Buddy)->Arg(4);
+// BENCHMARK(BM_5x5_Conv2D_Buddy)->Arg(8);
+// BENCHMARK(BM_5x5_Conv2D_Buddy)->Arg(16);
 
 static void BM_7x7_Conv2D_Buddy(benchmark::State &state) {
   for (auto _ : state) {
@@ -123,12 +123,12 @@ static void BM_7x7_Conv2D_Buddy(benchmark::State &state) {
   }
 }
 
-// Register benchmarking function with different arguments.
-BENCHMARK(BM_7x7_Conv2D_Buddy)->Arg(1);
-BENCHMARK(BM_7x7_Conv2D_Buddy)->Arg(2);
-BENCHMARK(BM_7x7_Conv2D_Buddy)->Arg(4);
-BENCHMARK(BM_7x7_Conv2D_Buddy)->Arg(8);
-BENCHMARK(BM_7x7_Conv2D_Buddy)->Arg(16);
+// // Register benchmarking function with different arguments.
+// BENCHMARK(BM_7x7_Conv2D_Buddy)->Arg(1);
+// BENCHMARK(BM_7x7_Conv2D_Buddy)->Arg(2);
+// BENCHMARK(BM_7x7_Conv2D_Buddy)->Arg(4);
+// BENCHMARK(BM_7x7_Conv2D_Buddy)->Arg(8);
+// BENCHMARK(BM_7x7_Conv2D_Buddy)->Arg(16);
 
 static void BM_9x9_Conv2D_Buddy(benchmark::State &state) {
   for (auto _ : state) {
@@ -138,12 +138,12 @@ static void BM_9x9_Conv2D_Buddy(benchmark::State &state) {
   }
 }
 
-// Register benchmarking function with different arguments.
-BENCHMARK(BM_9x9_Conv2D_Buddy)->Arg(1);
-BENCHMARK(BM_9x9_Conv2D_Buddy)->Arg(2);
-BENCHMARK(BM_9x9_Conv2D_Buddy)->Arg(4);
-BENCHMARK(BM_9x9_Conv2D_Buddy)->Arg(8);
-BENCHMARK(BM_9x9_Conv2D_Buddy)->Arg(16);
+// // Register benchmarking function with different arguments.
+// BENCHMARK(BM_9x9_Conv2D_Buddy)->Arg(1);
+// BENCHMARK(BM_9x9_Conv2D_Buddy)->Arg(2);
+// BENCHMARK(BM_9x9_Conv2D_Buddy)->Arg(4);
+// BENCHMARK(BM_9x9_Conv2D_Buddy)->Arg(8);
+// BENCHMARK(BM_9x9_Conv2D_Buddy)->Arg(16);
 
 // Generate result image.
 void generateResultConv2D() {
