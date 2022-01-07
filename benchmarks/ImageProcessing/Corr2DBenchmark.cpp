@@ -81,14 +81,14 @@ static void BM_3x3_Buddy(benchmark::State &state) {
   }
 }
 
-// Register benchmarking function with different arguments.
-BENCHMARK(BM_3x3_Buddy)->Arg(1);
-BENCHMARK(BM_3x3_Buddy)->Arg(2);
-BENCHMARK(BM_3x3_Buddy)->Arg(4);
-BENCHMARK(BM_3x3_Buddy)->Arg(8);
-BENCHMARK(BM_3x3_Buddy)->Arg(16);
+// // Register benchmarking function with different arguments.
+// BENCHMARK(BM_3x3_Buddy)->Arg(1);
+// BENCHMARK(BM_3x3_Buddy)->Arg(2);
+// BENCHMARK(BM_3x3_Buddy)->Arg(4);
+// BENCHMARK(BM_3x3_Buddy)->Arg(8);
+// BENCHMARK(BM_3x3_Buddy)->Arg(16);
 
-static void BM_5x5_Corr2D_Buddy(benchmark::State &state) {
+static void BM_5x5_Buddy(benchmark::State &state) {
   for (auto _ : state) {
     for (int i = 0; i < state.range(0); ++i) {
       _mlir_ciface_corr_2d(&inputCorr2D, &kernel5x5Corr2D, &outputCorr2D,
@@ -98,12 +98,12 @@ static void BM_5x5_Corr2D_Buddy(benchmark::State &state) {
   }
 }
 
-// // Register benchmarking function with different arguments.
-// BENCHMARK(BM_5x5_Corr2D_Buddy)->Arg(1);
-// BENCHMARK(BM_5x5_Corr2D_Buddy)->Arg(2);
-// BENCHMARK(BM_5x5_Corr2D_Buddy)->Arg(4);
-// BENCHMARK(BM_5x5_Corr2D_Buddy)->Arg(8);
-// BENCHMARK(BM_5x5_Corr2D_Buddy)->Arg(16);
+// Register benchmarking function with different arguments.
+BENCHMARK(BM_5x5_Buddy)->Arg(1);
+BENCHMARK(BM_5x5_Buddy)->Arg(2);
+BENCHMARK(BM_5x5_Buddy)->Arg(4);
+BENCHMARK(BM_5x5_Buddy)->Arg(8);
+BENCHMARK(BM_5x5_Buddy)->Arg(16);
 
 static void BM_7x7_Corr2D_Buddy(benchmark::State &state) {
   for (auto _ : state) {
