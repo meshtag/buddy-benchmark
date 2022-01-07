@@ -71,7 +71,7 @@ MemRef<float, 2> kernel7x7Corr2D(sobel7x7KernelAlign, sizesKernel7x7Corr2D);
 MemRef<float, 2> kernel9x9Corr2D(sobel9x9KernelAlign, sizesKernel9x9Corr2D);
 MemRef<float, 2> outputCorr2D(sizesOutputCorr2D);
 
-static void BM_3x3_Corr2D_Buddy(benchmark::State &state) {
+static void BM_3x3_Buddy(benchmark::State &state) {
   for (auto _ : state) {
     for (int i = 0; i < state.range(0); ++i) {
       _mlir_ciface_corr_2d(&inputCorr2D, &kernel3x3Corr2D, &outputCorr2D,
@@ -82,11 +82,11 @@ static void BM_3x3_Corr2D_Buddy(benchmark::State &state) {
 }
 
 // Register benchmarking function with different arguments.
-BENCHMARK(BM_3x3_Corr2D_Buddy)->Arg(1);
-BENCHMARK(BM_3x3_Corr2D_Buddy)->Arg(2);
-BENCHMARK(BM_3x3_Corr2D_Buddy)->Arg(4);
-BENCHMARK(BM_3x3_Corr2D_Buddy)->Arg(8);
-BENCHMARK(BM_3x3_Corr2D_Buddy)->Arg(16);
+BENCHMARK(BM_3x3_Buddy)->Arg(1);
+BENCHMARK(BM_3x3_Buddy)->Arg(2);
+BENCHMARK(BM_3x3_Buddy)->Arg(4);
+BENCHMARK(BM_3x3_Buddy)->Arg(8);
+BENCHMARK(BM_3x3_Buddy)->Arg(16);
 
 static void BM_5x5_Corr2D_Buddy(benchmark::State &state) {
   for (auto _ : state) {
