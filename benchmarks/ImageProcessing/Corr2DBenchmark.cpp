@@ -36,7 +36,7 @@ void _mlir_ciface_corr_2d(MemRef<float, 2> *inputCorr2D,
 
 // Read input image.
 Mat inputImageCorr2D = imread(
-    "../../benchmarks/ImageProcessing/Images/YuTu1024.png", IMREAD_GRAYSCALE);
+    "../../benchmarks/ImageProcessing/Images/YuTu512.png", IMREAD_GRAYSCALE);
 
 // Define the kernel size.
 int kernelRows3x3Corr2D = sobel3x3KernelRows;
@@ -71,7 +71,7 @@ MemRef<float, 2> kernel7x7Corr2D(sobel7x7KernelAlign, sizesKernel7x7Corr2D);
 MemRef<float, 2> kernel9x9Corr2D(sobel9x9KernelAlign, sizesKernel9x9Corr2D);
 MemRef<float, 2> outputCorr2D(sizesOutputCorr2D);
 
-static void BM_3x3_Buddy(benchmark::State &state) {
+static void BM_3x3_DIP(benchmark::State &state) {
   for (auto _ : state) {
     for (int i = 0; i < state.range(0); ++i) {
       _mlir_ciface_corr_2d(&inputCorr2D, &kernel3x3Corr2D, &outputCorr2D,
@@ -81,12 +81,12 @@ static void BM_3x3_Buddy(benchmark::State &state) {
   }
 }
 
-// // Register benchmarking function with different arguments.
-// BENCHMARK(BM_3x3_Buddy)->Arg(1);
-// BENCHMARK(BM_3x3_Buddy)->Arg(2);
-// BENCHMARK(BM_3x3_Buddy)->Arg(4);
-// BENCHMARK(BM_3x3_Buddy)->Arg(8);
-// BENCHMARK(BM_3x3_Buddy)->Arg(16);
+// Register benchmarking function with different arguments.
+BENCHMARK(BM_3x3_DIP)->Arg(1);
+BENCHMARK(BM_3x3_DIP)->Arg(2);
+BENCHMARK(BM_3x3_DIP)->Arg(4);
+BENCHMARK(BM_3x3_DIP)->Arg(8);
+BENCHMARK(BM_3x3_DIP)->Arg(16);
 
 static void BM_5x5_Buddy(benchmark::State &state) {
   for (auto _ : state) {
@@ -132,12 +132,12 @@ static void BM_9x9_Buddy(benchmark::State &state) {
   }
 }
 
-// Register benchmarking function with different arguments.
-BENCHMARK(BM_9x9_Buddy)->Arg(1);
-BENCHMARK(BM_9x9_Buddy)->Arg(2);
-BENCHMARK(BM_9x9_Buddy)->Arg(4);
-BENCHMARK(BM_9x9_Buddy)->Arg(8);
-BENCHMARK(BM_9x9_Buddy)->Arg(16);
+// // Register benchmarking function with different arguments.
+// BENCHMARK(BM_9x9_Buddy)->Arg(1);
+// BENCHMARK(BM_9x9_Buddy)->Arg(2);
+// BENCHMARK(BM_9x9_Buddy)->Arg(4);
+// BENCHMARK(BM_9x9_Buddy)->Arg(8);
+// BENCHMARK(BM_9x9_Buddy)->Arg(16);
 
 // Generate result image.
 void generateResultCorr2D() {
