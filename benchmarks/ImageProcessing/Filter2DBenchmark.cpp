@@ -28,7 +28,7 @@ using namespace std;
 // Read input image and specify kernel.
 Mat inputImageFilter2D = imread(
     "../../benchmarks/ImageProcessing/Images/YuTu512.png", IMREAD_GRAYSCALE);
-Mat kernel3x3Filter2D = Mat(3, 3, CV_32FC1, sobel3x3KernelAlign);
+Mat kernel3x3Filter2D = Mat(9, 9, CV_32FC1, sobel9x9KernelAlign);
 Mat kernel5x5Filter2D = Mat(3, 3, CV_32FC1, sobel5x5KernelAlign);
 Mat kernel7x7Filter2D = Mat(3, 3, CV_32FC1, sobel7x7KernelAlign);
 Mat kernel9x9Filter2D = Mat(3, 3, CV_32FC1, sobel9x9KernelAlign);
