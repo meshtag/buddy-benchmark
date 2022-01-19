@@ -27,25 +27,79 @@ using namespace std;
 
 // Read input image and specify kernel.
 Mat inputImageFilter2D = imread(
-    "../../benchmarks/ImageProcessing/Images/YuTu.png", IMREAD_GRAYSCALE);
-Mat kernelFilter2D = Mat(3, 3, CV_32FC1, laplacianKernelAlign);
+    "../../benchmarks/ImageProcessing/Images/YuTu512.png", IMREAD_GRAYSCALE);
+Mat kernel3x3Filter2D = Mat(9, 9, CV_32FC1, sobel9x9KernelAlign);
+Mat kernel5x5Filter2D = Mat(3, 3, CV_32FC1, sobel5x5KernelAlign);
+Mat kernel7x7Filter2D = Mat(3, 3, CV_32FC1, sobel7x7KernelAlign);
+Mat kernel9x9Filter2D = Mat(3, 3, CV_32FC1, sobel9x9KernelAlign);
 
 // Declare output image.
 Mat outputFilter2D;
 
 // Benchmarking function.
-static void BM_Filter2D_OpenCV(benchmark::State &state) {
+static void BM_3x3_OpenCV(benchmark::State &state) {
   for (auto _ : state) {
     for (int i = 0; i < state.range(0); ++i) {
-      filter2D(inputImageFilter2D, outputFilter2D, CV_32FC1, kernelFilter2D,
-               cv::Point(-1, -1), 0.0, cv::BORDER_CONSTANT);
+      filter2D(inputImageFilter2D, outputFilter2D, CV_32FC1, kernel3x3Filter2D,
+               cv::Point(-1, -1), 0.0, cv::BORDER_REPLICATE);
     }
   }
 }
 
 // Register benchmarking function with different arguments.
-BENCHMARK(BM_Filter2D_OpenCV)->Arg(1);
-BENCHMARK(BM_Filter2D_OpenCV)->Arg(2);
-BENCHMARK(BM_Filter2D_OpenCV)->Arg(4);
-BENCHMARK(BM_Filter2D_OpenCV)->Arg(8);
-BENCHMARK(BM_Filter2D_OpenCV)->Arg(16);
+BENCHMARK(BM_3x3_OpenCV)->Arg(1);
+BENCHMARK(BM_3x3_OpenCV)->Arg(2);
+BENCHMARK(BM_3x3_OpenCV)->Arg(4);
+BENCHMARK(BM_3x3_OpenCV)->Arg(8);
+BENCHMARK(BM_3x3_OpenCV)->Arg(16);
+
+// Benchmarking function.
+static void BM_5x5_OpenCV(benchmark::State &state) {
+  for (auto _ : state) {
+    for (int i = 0; i < state.range(0); ++i) {
+      filter2D(inputImageFilter2D, outputFilter2D, CV_32FC1, kernel5x5Filter2D,
+               cv::Point(-1, -1), 0.0, cv::BORDER_REPLICATE);
+    }
+  }
+}
+
+// // Register benchmarking function with different arguments.
+// BENCHMARK(BM_5x5_OpenCV)->Arg(1);
+// BENCHMARK(BM_5x5_OpenCV)->Arg(2);
+// BENCHMARK(BM_5x5_OpenCV)->Arg(4);
+// BENCHMARK(BM_5x5_OpenCV)->Arg(8);
+// BENCHMARK(BM_5x5_OpenCV)->Arg(16);
+
+// Benchmarking function.
+static void BM_7x7_OpenCV(benchmark::State &state) {
+  for (auto _ : state) {
+    for (int i = 0; i < state.range(0); ++i) {
+      filter2D(inputImageFilter2D, outputFilter2D, CV_32FC1, kernel7x7Filter2D,
+               cv::Point(-1, -1), 0.0, cv::BORDER_REPLICATE);
+    }
+  }
+}
+
+// // Register benchmarking function with different arguments.
+// BENCHMARK(BM_7x7_OpenCV)->Arg(1);
+// BENCHMARK(BM_7x7_OpenCV)->Arg(2);
+// BENCHMARK(BM_7x7_OpenCV)->Arg(4);
+// BENCHMARK(BM_7x7_OpenCV)->Arg(8);
+// BENCHMARK(BM_7x7_OpenCV)->Arg(16);
+
+// Benchmarking function.
+static void BM_9x9_OpenCV(benchmark::State &state) {
+  for (auto _ : state) {
+    for (int i = 0; i < state.range(0); ++i) {
+      filter2D(inputImageFilter2D, outputFilter2D, CV_32FC1, kernel9x9Filter2D,
+               cv::Point(-1, -1), 0.0, cv::BORDER_REPLICATE);
+    }
+  }
+}
+
+// // Register benchmarking function with different arguments.
+// BENCHMARK(BM_9x9_OpenCV)->Arg(1);
+// BENCHMARK(BM_9x9_OpenCV)->Arg(2);
+// BENCHMARK(BM_9x9_OpenCV)->Arg(4);
+// BENCHMARK(BM_9x9_OpenCV)->Arg(8);
+// BENCHMARK(BM_9x9_OpenCV)->Arg(16);
