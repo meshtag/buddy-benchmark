@@ -19,14 +19,20 @@
 //===----------------------------------------------------------------------===//
 
 #include <benchmark/benchmark.h>
+#include <iostream>
 
 void generateResultConv2D();
 void generateResultCorr2D();
+void main_1(int, char**);
 
 // Run benchmarks.
 int main(int argc, char **argv) {
+
+  main_1(argc, argv);
+
   ::benchmark::Initialize(&argc, argv);
   ::benchmark::RunSpecifiedBenchmarks();
+  std::cout << argv[1] << "    argv[1]\n";
   // Generate result image.
   generateResultConv2D();
   generateResultCorr2D();
