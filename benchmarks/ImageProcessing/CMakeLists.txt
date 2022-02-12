@@ -9,6 +9,32 @@ message(STATUS "Configuring MLIR Linalg Tile Size: ${MLIR_LINALG_TILE}")
 # MLIR Linalg Dialect Conv2D Operation + Upstream Lowering Passes
 #-------------------------------------------------------------------------------
 
+add_custom_command(OUTPUT mlir-tosa-resize.o
+  COMMAND ${LLVM_MLIR_BINARY_DIR}/mlir-opt
+          ${BUDDY_SOURCE_DIR}/benchmarks/ImageProcessing/MLIRTosaResize.mlir
+
+            --linalg-bufferize 
+            --func-bufferize
+            --tensor-bufferize
+
+            --tosa-infer-shapes 
+            --tosa-to-linalg 
+            --tosa-to-linalg-named 
+            --tosa-to-scf
+            
+            -convert-linalg-to-loops
+            -convert-scf-to-cf -convert-linalg-to-llvm
+            -lower-affine -convert-scf-to-cf --convert-memref-to-llvm 
+            -convert-std-to-llvm='emit-c-wrappers=1'
+            -reconcile-unrealized-casts | 
+          ${LLVM_MLIR_BINARY_DIR}/mlir-translate --mlir-to-llvmir |
+          ${LLVM_MLIR_BINARY_DIR}/llc -mtriple=${BUDDY_OPT_TRIPLE} 
+            -mattr=${BUDDY_OPT_ATTR} --filetype=obj 
+            -o ${BUDDY_BINARY_DIR}/../benchmarks/ImageProcessing/mlir-tosa-resize.o
+)
+add_library(MLIRTosaResize STATIC mlir-tosa-resize.o)
+set_target_properties(MLIRTosaResize PROPERTIES LINKER_LANGUAGE CXX)
+
 add_custom_command(OUTPUT mlir-conv2d.o
   COMMAND ${LLVM_MLIR_BINARY_DIR}/mlir-opt
           ${BUDDY_SOURCE_DIR}/benchmarks/ImageProcessing/MLIRConv2D.mlir 
@@ -75,6 +101,15 @@ add_executable(image-processing-benchmark
   MLIRConv2DBenchmark.cpp
   BuddyConv2DBenchmark.cpp
   BuddyCorr2DBenchmark.cpp
+  )
+
+add_executable(tosa-resize-benchmark
+  MLIRTosaResizeBenchmark.cpp
+  )
+
+target_link_libraries(tosa-resize-benchmark
+  MLIRTosaResize
+  ${OpenCV_LIBS}
   )
 
 target_link_libraries(image-processing-benchmark 

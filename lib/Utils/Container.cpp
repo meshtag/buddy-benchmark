@@ -101,18 +101,18 @@ MemRef<T, N>::MemRef(cv::Mat image, intptr_t sizes[N]) {
     setStrides();
   } else if (N == 4) {
     // Copy image pixels for deep learning tensors.
-    auto ptr = new T[image.rows * image.cols * 3];
+    auto ptr = new T[image.rows * image.cols];
     this->allocated = ptr;
     this->aligned = ptr;
     int k = 0;
     // NHWC layout.
     for (int i = 0; i < image.rows; i++) {
       for (int j = 0; j < image.cols; j++) {
-        for (int color = 0; color < 3; color++) {
+        // for (int color = 0; color < 0; color++) {
           // Reorder to RGB layout and normalize the element.
-          this->aligned[k] = (T)image.at<cv::Vec3b>(i, j)[2 - color] / 255.0f;
+          this->aligned[k] = (T)image.at<uchar>(i, j);
           k++;
-        }
+        // }
       }
     }
     setStrides(true);
