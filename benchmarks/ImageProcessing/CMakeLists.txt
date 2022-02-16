@@ -12,19 +12,17 @@ message(STATUS "Configuring MLIR Linalg Tile Size: ${MLIR_LINALG_TILE}")
 add_custom_command(OUTPUT mlir-tosa-resize.o
   COMMAND ${LLVM_MLIR_BINARY_DIR}/mlir-opt
           ${BUDDY_SOURCE_DIR}/benchmarks/ImageProcessing/MLIRTosaResize.mlir
-
-            --linalg-bufferize 
-            --func-bufferize
-            --tensor-bufferize
-
-            --tosa-infer-shapes 
-            --tosa-to-linalg 
-            --tosa-to-linalg-named 
-            --tosa-to-scf
-            
+            -tosa-to-linalg 
+            -arith-bufferize 
+            -tensor-bufferize 
+            -linalg-bufferize 
+            -func-bufferize
+            -buffer-deallocation
             -convert-linalg-to-loops
             -convert-scf-to-cf -convert-linalg-to-llvm
-            -lower-affine -convert-scf-to-cf --convert-memref-to-llvm 
+            -convert-memref-to-llvm
+            -convert-math-to-llvm  
+            -convert-std-to-llvm
             -convert-std-to-llvm='emit-c-wrappers=1'
             -reconcile-unrealized-casts | 
           ${LLVM_MLIR_BINARY_DIR}/mlir-translate --mlir-to-llvmir |

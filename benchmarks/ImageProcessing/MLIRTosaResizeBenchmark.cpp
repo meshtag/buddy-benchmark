@@ -31,7 +31,11 @@ extern "C" {
 //                                MemRef<float, 2> *kernelConv2D,
 //                                MemRef<float, 2> *outputConv2D);
 
-void _mlir_ciface_mlir_tosa_resize(MemRef<float, 4> *output, MemRef<float, 4> *input);
+// void _mlir_ciface_mlir_tosa_resize(MemRef<float, 4> *output, MemRef<float, 4> *input);
+
+// void _mlir_ciface_mlir_tosa_resize(MemRef<float, 4> *input);
+
+// void _mlir_ciface_matmul_static_tensor();
 }
 
 int main()
@@ -45,7 +49,9 @@ int main()
   MemRef<float, 4> input(inputImage, sizesInput);
   MemRef<float, 4> output(sizesOutput);
 
-  _mlir_ciface_mlir_tosa_resize(&input, &output);
+  // _mlir_ciface_mlir_tosa_resize(&input, &output);
+  // _mlir_ciface_mlir_tosa_resize(&input);
+  // _mlir_ciface_matmul_static_tensor();
 
   float *check = output.getData();
 
@@ -65,25 +71,28 @@ int main()
   //   std::cout << check[i] << " ";
   // std::cout << "\n";
 
-  cv::Mat outputImage(inputImage.rows, inputImage.cols, CV_8UC1);
+  cv::Mat outputImage(500, 500, CV_8UC1);
+  // cv::Mat outputImage(inputImage.rows, inputImage.cols, CV_8UC1);
+  // cv::Mat outputImage(500, 500, CV_8UC1, output.getData());
+  // cv::Mat outputImage(inputImage.rows, inputImage.cols, CV_8UC1, input.getData());
 
-  std::cout << outputImage.rows << " " << outputImage.cols << "\n";
+  // std::cout << outputImage.rows << " " << outputImage.cols << "\n";
 
-  for (int i = 0; i < inputImage.rows; ++i)
-  {
-    for (int j = 0; j < inputImage.cols; ++j)
-    {
-      outputImage.at<uchar>(i, j) = checkInput[i * inputImage.rows + j];
-    }
-  }
-
-  // for (int i = 0; i < 500; ++i)
+  // for (int i = 0; i < inputImage.rows; ++i)
   // {
-  //   for (int j = 0; j < 500; ++j)
+  //   for (int j = 0; j < inputImage.cols; ++j)
   //   {
-  //     outputImage.at<uchar>(i, j) = check[i * 500 + j];
+  //     outputImage.at<uchar>(i, j) = checkInput[i * inputImage.rows + j];
   //   }
   // }
+
+  for (int i = 0; i < 500; ++i)
+  {
+    for (int j = 0; j < 500; ++j)
+    {
+      outputImage.at<uchar>(i, j) = check[i * 500 + j];
+    }
+  }
 
   // Choose a PNG compression level
   std::vector<int> compressionParams;
