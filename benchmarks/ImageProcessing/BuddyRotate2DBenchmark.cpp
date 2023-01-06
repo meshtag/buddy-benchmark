@@ -27,7 +27,7 @@
 using namespace cv;
 using namespace std;
 
-// Declare the conv2d C interface.
+// Declare the rotate2d C interface.
 extern "C" {
 // Declare the Rotate2D C interface.
 void _mlir_ciface_rotate_2d(Img<float, 2> *input, float angleValue,
