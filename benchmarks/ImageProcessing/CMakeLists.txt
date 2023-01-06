@@ -102,6 +102,10 @@ add_custom_command(OUTPUT buddy-corr2d.o
 add_library(BuddyCorr2D STATIC buddy-corr2d.o)
 set_target_properties(BuddyCorr2D PROPERTIES LINKER_LANGUAGE CXX)
 
+#-------------------------------------------------------------------------------
+# Buddy DIP Dialect Morphology Operations
+#-------------------------------------------------------------------------------
+
 add_custom_command(OUTPUT buddy-morph2d.o
   COMMAND ${BUDDY_MLIR_BUILD_DIR}/bin/buddy-opt 
           ${BUDDY_SOURCE_DIR}/benchmarks/ImageProcessing/BuddyMorph2D.mlir 
@@ -119,6 +123,26 @@ add_library(BuddyMorph2D STATIC buddy-morph2d.o)
 set_target_properties(BuddyMorph2D PROPERTIES LINKER_LANGUAGE CXX)
 
 #-------------------------------------------------------------------------------
+# Buddy DIP Dialect Rotation Operation
+#-------------------------------------------------------------------------------
+
+add_custom_command(OUTPUT buddy-rotate2d.o
+  COMMAND ${BUDDY_MLIR_BUILD_DIR}/bin/buddy-opt 
+          ${BUDDY_SOURCE_DIR}/benchmarks/ImageProcessing/BuddyRotate2D.mlir 
+            -lower-dip="DIP-strip-mining=${SPLITING_SIZE}" 
+            -arith-expand -lower-affine -convert-scf-to-cf 
+            -convert-math-to-llvm -convert-vector-to-llvm 
+            -convert-memref-to-llvm -llvm-request-c-wrappers 
+            -convert-func-to-llvm -reconcile-unrealized-casts | 
+          ${LLVM_MLIR_BINARY_DIR}/mlir-translate --mlir-to-llvmir |
+          ${LLVM_MLIR_BINARY_DIR}/llc -mtriple=${BUDDY_OPT_TRIPLE} 
+            -mattr=${BUDDY_OPT_ATTR} --filetype=obj 
+            -o ${BUDDY_BINARY_DIR}/../benchmarks/ImageProcessing/buddy-rotate2d.o
+)
+add_library(BuddyRotate2D STATIC buddy-rotate2d.o)
+set_target_properties(BuddyRotate2D PROPERTIES LINKER_LANGUAGE CXX)
+
+#-------------------------------------------------------------------------------
 # Image Processing Benchmark Target
 #-------------------------------------------------------------------------------
 
@@ -131,6 +155,8 @@ add_executable(image-processing-benchmark
   BuddyCorr2DBenchmark.cpp
   BuddyMorph2DBenchmark.cpp
   OpenCVMorph2DBenchmark.cpp
+  BuddyRotate2DBenchmark.cpp
+  OpenCVRotate2DBenchmark.cpp
   )
 
 target_include_directories(image-processing-benchmark 
@@ -147,4 +173,5 @@ target_link_libraries(image-processing-benchmark
   BuddyConv2D
   BuddyCorr2D
   BuddyMorph2D
+  BuddyRotate2D
   )
