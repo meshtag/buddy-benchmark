@@ -31,7 +31,7 @@ Mat rotate(Mat src, double angle)   //rotate function returning mat object with 
     Point2f pt(src.cols/2., src.rows/2.);          //point from where to rotate    
     Mat r = getRotationMatrix2D(pt, angle, 1.0);      //Mat object for storing after rotation
     
-    std::cout << r << "\n\n";
+    // std::cout << r << "\n\n";
 
     warpAffine(src, dst, r, Size(src.cols, src.rows));  ///applie an affine transforation to image.
     return dst;
@@ -48,7 +48,7 @@ void initializeOpenCVRotate2D(char **argv) {
 static void OpenCV_Rotate2D(benchmark::State &state) {
   for (auto _ : state) {
     for (int i = 0; i < state.range(0); ++i) {
-      // outputRotate2D = rotate(inputImageRotate2D, 120);
+      outputRotate2D = rotate(inputImageRotate2D, 120);
     }
   }
 }
@@ -68,8 +68,6 @@ void generateResultOpenCVRotate2D() {
   vector<int> compressionParams;
   compressionParams.push_back(IMWRITE_PNG_COMPRESSION);
   compressionParams.push_back(9);
-
-  std::cout << "Here\n";
 
   // Write output to PNG.
   bool result = false;
